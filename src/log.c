@@ -1,23 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include "../include/log.h"
 
-void redirect_output_to_file(const char *path) {
-    // file access checking
-    if (access(path, W_OK) == -1) {
-        // creating if not accessible
-        FILE *file = fopen(path, "w");
-        if (file == NULL) {
-            perror("fopen");
-            exit(EXIT_FAILURE);
-        }
-        fclose(file);
-    }
-
-    // stdout redirecting
-    FILE *file = freopen(path, "a", stdout);
+// Функция для перенаправления stdout (стандартного вывода) в файл
+void redirect_output(const char *path) {
+    // Используем freopen для перенаправления stdout в указанный файл
+    FILE *file = freopen(path, "w", stdout);
     if (file == NULL) {
+        // Если перенаправление не удалось, выводим ошибку и завершаем программу
         perror("freopen");
         exit(EXIT_FAILURE);
     }
