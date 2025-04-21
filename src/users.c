@@ -1,19 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <pwd.h>
-#include "../include/users.h"
+#include <sys/types.h>  // Для типов данных, используемых в системных вызовах
+#include <pwd.h>  // Для работы с информацией о пользователях
 
-void print_users_sorted() {
-    struct passwd *pw;
+// Функция для вывода списка пользователей и их домашних директорий
+void print_users() {
+    struct passwd *pw;  // Структура для хранения информации о пользователе
 
-    // opening users
-    setpwent();
-
+    // Открываем базу данных пользователей
     while ((pw = getpwent()) != NULL) {
-        printf("%s: %s\n", pw->pw_name, pw->pw_dir);  // printing name and home path
+        // Выводим имя пользователя и его домашнюю директорию
+        printf("Users: %s, Home: %s\n", pw->pw_name, pw->pw_dir);
     }
 
-    // closing db
+    // Закрываем базу данных пользователей
     endpwent();
 }
