@@ -1,23 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include "../include/errors.h"
 
-void redirect_errors_to_file(const char *path) {
-    // file access checking
-    if (access(path, W_OK) == -1) {
-        // creating file if not accessible
-        FILE *file = fopen(path, "w");
-        if (file == NULL) {
-            perror("fopen");
-            exit(EXIT_FAILURE);
-        }
-        fclose(file);
-    }
-
-    //  stderr redirecting
-    FILE *file = freopen(path, "a", stderr);
+// Функция для перенаправления stderr (стандартного вывода ошибок) в файл
+void redirect_errors(const char *path) {
+    // Используем freopen для перенаправления stderr в указанный файл
+    FILE *file = freopen(path, "w", stderr);
     if (file == NULL) {
+        // Если перенаправление не удалось, выводим ошибку и завершаем программу
         perror("freopen");
         exit(EXIT_FAILURE);
     }
